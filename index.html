@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sinergia Servicios</title>
+  <style>
+    :root {
+      --bg-light: #f6f7fb;
+      --bg-dark: #0f1b2c;
+      --bg-muted: #eef1f5;
+      --accent: #1f6fb2;
+      --accent-muted: #2d82c4;
+      --text-main: #1c2733;
+      --text-muted: #4a5563;
+      --card-bg: #ffffff;
+      --border: #d7dce3;
+      --shadow: 0 10px 30px rgba(15, 27, 44, 0.08);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(180deg, #ffffff 0%, #f7f9fc 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(15, 27, 44, 0.05);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      color: var(--bg-dark);
+    }
+
+    .logo-placeholder {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      border: 2px dashed var(--accent);
+      display: grid;
+      place-items: center;
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: 0.4px;
+      background: #f0f6fb;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      padding: 10px 14px;
+      color: var(--text-main);
+      font-weight: 600;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--bg-dark);
+      background: rgba(31, 111, 178, 0.08);
+      outline: none;
+    }
+
+    .menu-toggle {
+      display: none;
+      background: var(--bg-dark);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+    }
+
+    main {
+      padding: 80px 16px 64px;
+    }
+
+    .section {
+      max-width: 1100px;
+      margin: 0 auto 64px;
+      padding: 48px;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .section.light {
+      background: var(--bg-light);
+      border: 1px solid rgba(15, 27, 44, 0.05);
+    }
+
+    .section h2 {
+      margin-top: 0;
+      font-size: 1.9rem;
+      letter-spacing: -0.4px;
+      color: var(--bg-dark);
+    }
+
+    .section p {
+      color: var(--text-muted);
+      margin: 0 0 16px;
+    }
+
+    .highlight {
+      background: linear-gradient(135deg, rgba(31, 111, 178, 0.08), rgba(31, 111, 178, 0.02));
+      border: 1px solid rgba(31, 111, 178, 0.18);
+      border-radius: var(--radius);
+      padding: 28px;
+      font-size: 1.05rem;
+      color: var(--text-main);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    .cards {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .card {
+      background: #fff;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      min-height: 220px;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: var(--bg-dark);
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--text-muted);
+      text-align: left;
+    }
+
+    .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent), var(--accent-muted));
+      box-shadow: 0 8px 20px rgba(31, 111, 178, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta.secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid rgba(31, 111, 178, 0.5);
+      box-shadow: none;
+    }
+
+    .cta:hover,
+    .cta:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(31, 111, 178, 0.3);
+      outline: none;
+    }
+
+    .cta.secondary:hover,
+    .cta.secondary:focus-visible {
+      box-shadow: var(--shadow);
+    }
+
+    form {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--bg-dark);
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      font: inherit;
+      background: #fff;
+      color: var(--text-main);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(31, 111, 178, 0.15);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .form-actions {
+      grid-column: 1 / -1;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    footer {
+      background: #0f1b2c;
+      color: #e5ebf2;
+      padding: 24px;
+      text-align: center;
+      font-size: 0.95rem;
+      letter-spacing: 0.2px;
+    }
+
+    .contact-info {
+      margin-top: 12px;
+      color: var(--text-muted);
+    }
+
+    section { scroll-margin-top: 96px; }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: absolute;
+        top: 76px;
+        right: 16px;
+        background: #fff;
+        border: 1px solid rgba(15, 27, 44, 0.08);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        padding: 12px;
+        width: min(260px, 80vw);
+        flex-direction: column;
+        align-items: flex-start;
+        display: none;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        width: 100%;
+        padding: 12px 14px;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .nav-container {
+        position: relative;
+      }
+
+      main {
+        padding-top: 72px;
+      }
+
+      .section {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav-container">
+      <div class="brand">
+        <div class="logo-placeholder" aria-label="Espacio para logo">Logo</div>
+        <span>Sinergia Servicios</span>
+      </div>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="primary-nav">☰ Menú</button>
+      <nav id="primary-nav" aria-label="Navegación principal">
+        <div class="nav-links">
+          <a href="#quienes-somos">Quiénes somos</a>
+          <a href="#que-hacemos">Qué hacemos</a>
+          <a href="#politica-integrada">Nuestra política integrada</a>
+          <a href="#antecedentes-obra">Antecedentes de obra</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="quienes-somos" class="section light" aria-labelledby="titulo-quienes">
+      <h2 id="titulo-quienes">Quiénes somos</h2>
+      <div class="highlight">
+        Sinergia Servicios es una empresa con sólido know how, respaldada por más de 20 años de experiencia y un equipo de profesionales altamente capacitados. Esta combinación nos ha permitido desarrollar proyectos para clientes de alto nivel como Cargill, General Electric, Siemens, YPF, Industrias J.F. Secco, Gerdau y muchos otros.
+      </div>
+    </section>
+
+    <section id="que-hacemos" class="section" aria-labelledby="titulo-que-hacemos">
+      <h2 id="titulo-que-hacemos">Qué hacemos</h2>
+      <div class="cards">
+        <article class="card">
+          <h3>Ingeniería e Instrumentación</h3>
+          <p>Desarrollamos soluciones integrales y a medida para proyectos industriales, aplicando nuestra amplia experiencia en automatización, instrumentación y control. Somos especialistas en la puesta en servicio de calderas y Sistemas de Seguridad Instrumentada (SIS), así como en la asistencia para la puesta en marcha de procesos industriales complejos, tales como procesos continuos, generación de energía y procesos químicos.</p>
+        </article>
+        <article class="card">
+          <h3>Solution Partner Siemens SA</h3>
+          <p>Contamos con el respaldo de una marca líder que reconoce nuestra trayectoria, experiencia y know-how en automatización e instrumentación. Comercializamos el portafolio completo de instrumentación, equipos de automatización, programación de PLC, SCADA, HMI y equipos de maniobra y puesta en servicio, y brindamos soporte técnico especializado para asegurar su correcta aplicación en cada proyecto.</p>
+        </article>
+        <article class="card">
+          <h3>Construcción y montaje</h3>
+          <p>Ejecutamos obras integrales, desde el montaje eléctrico hasta la integración de sistemas industriales. Aportamos calidad, eficiencia y cumplimiento en cada etapa. Además, contamos con una unidad de negocio especializada en la construcción industrializada, tanto en estructuras metálicas como en hormigón.</p>
+        </article>
+        <article class="card">
+          <h3>Fabricación</h3>
+          <p>Disponemos de un taller metalmecánico y eléctrico de más de 3.000 m², equipado con tecnología de última generación para la fabricación de tableros eléctricos, componentes especiales y herramientas industriales, garantizando precisión y altos estándares de calidad.</p>
+        </article>
+        <article class="card">
+          <h3>Flota completa de vehículos y equipos</h3>
+          <p>Ponemos a disposición una flota altamente equipada y en permanente actualización, diseñada para cubrir necesidades de movimiento, izaje y manipulación de materiales. Disponemos de camiones con hidrogrúa, puente grúa, plataformas elevadoras, carretón, vehículos utilitarios y equipos específicos que nos permiten ejecutar trabajos con seguridad, eficiencia y autonomía operativa.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="politica-integrada" class="section light" aria-labelledby="titulo-politica">
+      <h2 id="titulo-politica">Nuestra política integrada</h2>
+      <p>A continuación se presenta nuestra Política Integrada, disponible para su consulta en formato de documento.</p>
+      <div class="cta-group">
+        <a class="cta" href="politica-integrada.pdf">Ver política integrada (PDF)</a>
+        <a class="cta secondary" href="#">Descargar versión resumida</a>
+      </div>
+    </section>
+
+    <section id="antecedentes-obra" class="section" aria-labelledby="titulo-antecedentes">
+      <h2 id="titulo-antecedentes">Antecedentes de obra</h2>
+      <p>Aquí se encuentran los antecedentes de obra más relevantes, disponibles en documento descargable.</p>
+      <div class="cta-group">
+        <a class="cta" href="antecedentes-obra.pdf">Ver antecedentes de obra (PDF)</a>
+        <a class="cta secondary" href="#">Solicitar información adicional</a>
+      </div>
+    </section>
+
+    <section id="contacto" class="section light" aria-labelledby="titulo-contacto">
+      <h2 id="titulo-contacto">Contacto</h2>
+      <p>Para consultas y más información, complete el siguiente formulario o contáctenos por los medios indicados.</p>
+      <form>
+        <div>
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" required>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="correo@ejemplo.com" required>
+        </div>
+        <div style="grid-column: 1 / -1;">
+          <label for="mensaje">Mensaje</label>
+          <textarea id="mensaje" name="mensaje" placeholder="Escriba su consulta"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="cta">Enviar</button>
+        </div>
+      </form>
+      <div class="contact-info">
+        <p><strong>Email:</strong> info@sinergiaservicios.com</p>
+        <p><strong>Teléfono:</strong> +54 11 5555-1234 · <strong>Ciudad:</strong> Rosario, Argentina</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Sinergia Servicios · Todos los derechos reservados · 2024
+  </footer>
+
+  <script>
+    const toggle = document.querySelector('.menu-toggle');
+    const links = document.querySelector('.nav-links');
+
+    toggle.addEventListener('click', () => {
+      const isOpen = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    links.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        if (links.classList.contains('open')) {
+          links.classList.remove('open');
+          toggle.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
