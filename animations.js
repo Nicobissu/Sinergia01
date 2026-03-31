@@ -71,6 +71,8 @@ mm.add(
           stagger: 0.1,
           ease: "power2.out",
           overwrite: true,
+          // Clear inline transform after animation so CSS hover (translateY) works
+          clearProps: "transform",
         });
       },
       start: "top 88%",
@@ -126,5 +128,70 @@ mm.add(
         });
       });
     }
+
+    // ── 8. FALLING PARTICLES ───────────────────────────────────────────────
+    const particleCount = isDesktop ? 22 : 11;
+
+    const particlesContainer = document.createElement("div");
+    particlesContainer.setAttribute("aria-hidden", "true");
+    Object.assign(particlesContainer.style, {
+      position: "fixed",
+      inset: "0",
+      pointerEvents: "none",
+      zIndex: "0",
+      overflow: "hidden",
+    });
+    document.body.prepend(particlesContainer);
+
+    // Shape variants: circle, small square, tiny diamond (square rotated 45°)
+    const shapes = ["circle", "square", "diamond"];
+
+    for (let i = 0; i < particleCount; i++) {
+      const size      = gsap.utils.random(2.5, 9);
+      const shape     = shapes[Math.floor(Math.random() * shapes.length)];
+      const isTeal    = Math.random() > 0.4;
+      const opacity   = gsap.utils.random(0.15, 0.5);
+      const startX    = gsap.utils.random(1, 99);       // % from left
+      const startY    = gsap.utils.random(-20, 80);     // starting vh
+      const fallDist  = gsap.utils.random(70, 200);     // vh to fall
+      const spinDelta = gsap.utils.random(-90, 90);     // rotation change while falling
+      const scrub     = gsap.utils.random(1.2, 4.5);    // slower = floatier
+
+      const color = isTeal
+        ? `rgba(20, 184, 166, ${opacity})`
+        : `rgba(232, 69, 99, ${opacity * 0.85})`;
+
+      const el = document.createElement("div");
+      Object.assign(el.style, {
+        position:     "absolute",
+        width:        `${size}px`,
+        height:       `${size}px`,
+        left:         `${startX}%`,
+        top:          `${startY}vh`,
+        background:   color,
+        borderRadius: shape === "circle"  ? "50%"
+                    : shape === "square"  ? "2px"
+                    :                       "3px",       // diamond gets border-radius too
+        transform:    shape === "diamond" ? `rotate(45deg)` : `rotate(${gsap.utils.random(0, 30)}deg)`,
+        willChange:   "transform",
+      });
+
+      particlesContainer.appendChild(el);
+
+      gsap.to(el, {
+        y:        `${fallDist}vh`,
+        rotation: `+=${spinDelta}`,
+        ease:     "none",
+        scrollTrigger: {
+          trigger: document.body,
+          start:   "top top",
+          end:     "bottom bottom",
+          scrub,
+        },
+      });
+    }
+
+    // Cleanup: remove container when matchMedia conditions change
+    return () => particlesContainer.remove();
   }
 );
